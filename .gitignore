@@ -1,22 +1,31 @@
-# Ignore specific files
-to_do.txt
-requirements.txt
-
-# Python cache files
+# Python cache
 __pycache__/
 *.py[cod]
 *.pyo
 
-# Virtual environment folders
-env/
+# Virtual environments
 venv/
 .venv/
 
-# Log and temporary files
+# Environment variables
+.env
+
+# Logs and temporary files
 *.log
 *.tmp
 *.swp
 
-# IDE settings (optional)
+# IDE settings (optional but recommended)
 .vscode/
 .idea/
+
+# Other project specific
+# To-do list (optional)
+to_do.txt
+
+# Dependencies file (optional, you can version it if you want, otherwise ignore)
+# requirements.txt
+# (If you want to version it, do not add here!)
+
+# Backup files (optional)
+*~
