@@ -40,7 +40,7 @@ def generate_device_status(device_id, timestamp):
 
 def send_device_status_to_api(status_data):
     try:
-        response = requests.post(STATUS_API_URL, json=status_data)
+        response = requests.post(DEVICE_STATUS_API_URL, json=status_data)
         response.raise_for_status()
         print(f"✅ Device status sent: {status_data['idDevice']} @ {status_data['date']}")
     except requests.exceptions.RequestException as e:
@@ -86,7 +86,7 @@ def stop_device_status_loop():
 def get_device_statuses():
     """Retrieve list of device statuses from the API."""
     try:
-        response = requests.get(STATUS_API_URL, timeout=10)
+        response = requests.get(DEVICE_STATUS_API_URL, timeout=10)
         response.raise_for_status()
 
         statuses = response.json()
