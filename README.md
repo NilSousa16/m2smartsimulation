@@ -12,11 +12,11 @@
 **M2SmartSimulation** is a simulation system for **IoT Gateways** and **IoT Devices** designed for Smart Cities scenarios.  
 It enables the simulation of:
 
-- Gateway generation with geographic data
-- Device generation linked to gateways
-- Continuous or manual sending of gateway status
-- Continuous or manual sending of device status
-- Communication with REST APIs
+- Gateway generation with geographic data  
+- Device generation linked to gateways  
+- Continuous or manual sending of gateway status  
+- Continuous or manual sending of device status  
+- Communication with REST APIs  
 
 ---
 
@@ -30,3 +30,34 @@ M2SMARSimulation/
 ├── .gitignore
 ├── README.md   -> This README
 └── requirements.txt (per component if needed)
+```
+
+---
+
+## 🚀 Como Rodar Localmente
+
+### 🔥 Passo 1: Crie e ative um ambiente virtual (opcional, mas recomendado)
+
+```bash
+python -m venv venv
+source venv/bin/activate    # Linux/macOS
+venv\Scripts\activate     # Windows
+```
+
+### 🔥 Passo 2: Instale as dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 🔥 Passo 3: Execute o servidor
+
+```bash
+uvicorn app.main:app --reload
+```
+
+O backend estará rodando em:  
+👉 [http://127.0.0.1:8000](http://127.0.0.1:8000)
+
+Documentação interativa automática (Swagger UI):  
+👉 [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)

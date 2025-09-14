@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Query
 from app.services import device_service
 from app.models.schemas import DeviceResponseSchema, DeviceIdListResponse
+from pydantic import BaseModel
 
 router = APIRouter()
 
@@ -47,3 +48,54 @@ def list_device_ids():
             "device_ids": ids,
             "message": f"✅ {len(ids)} device IDs retrieved successfully."
         }
+# ----------------------------------------------------------
+# 🆕 Rota PUT - Atualizar dispositivo (status ou completo)
+# ----------------------------------------------------------
+
+# MODELOS Pydantic para a requisição PUT
+class Coordinates(BaseModel):
+    latitude: float
+    longitude: float
+
+class Date(BaseModel):
+    year: int
+    month: int
+    dayOfMonth: int
+    hourOfDay: int
+    minute: int
+    second: int
+
+class GatewayInfo(BaseModel):
+    mac: str
+    ip: str
+    manufacturer: str
+    hostName: str
+    status: bool
+    date: Date
+    solution: str
+    coordinates: Coordinates
+
+class DeviceUpdate(BaseModel):
+    id: str
+    coordinates: Coordinates
+    description: str
+    typeDevice: str
+    category: str
+    status: bool
+    date: Date
+    gateway: GatewayInfo
+
+@router.put("/update")
+def update_device(device: DeviceUpdate):
+    """
+    Atualiza completamente um dispositivo IoT no serviço remoto.
+    """
+    try:
+        response = requests.put(
+            DEVICE_API_URL,
+            json=device.dict()
+        )
+        response.raise_for_status()
+        return {"message": f"✅ Dispositivo {device.id} atualizado com sucesso!"}
+    except requests.RequestException as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao atualizar dispositivo: {e}")

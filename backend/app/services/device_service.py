@@ -9,15 +9,37 @@ from app.config import DEVICE_API_URL
 
 # Device Types
 DEVICE_TYPES = [
-    {"name": "temperature sensor", "type": "environment"},
-    {"name": "humidity sensor", "type": "environment"},
-    {"name": "motion detector", "type": "security"},
-    {"name": "light sensor", "type": "lighting"},
-    {"name": "air quality monitor", "type": "environment"},
-    {"name": "camera", "type": "security"},
-    {"name": "parking sensor", "type": "mobility"},
-    {"name": "noise sensor", "type": "environment"},
-    {"name": "flood sensor", "type": "environment"},
+    {"name": "temperature sensor", "type": "sensor"},
+    {"name": "humidity sensor", "type": "sensor"},
+    {"name": "air quality sensor", "type": "sensor"},
+    {"name": "noise level sensor", "type": "sensor"},
+    {"name": "CO2 sensor", "type": "sensor"},
+    {"name": "traffic flow sensor", "type": "sensor"},
+    {"name": "parking occupancy sensor", "type": "sensor"},
+    {"name": "smart energy meter", "type": "sensor"},
+    {"name": "waste bin fill-level sensor", "type": "sensor"},
+    {"name": "flood detection sensor", "type": "sensor"},
+    {"name": "rain gauge sensor", "type": "sensor"},
+    {"name": "UV radiation sensor", "type": "sensor"},
+    {"name": "wind speed sensor", "type": "sensor"},
+    {"name": "motion detector (public spaces)", "type": "sensor"},
+    {"name": "camera (CCTV)", "type": "sensor"},
+
+    {"name": "smart traffic light controller", "type": "actuator"},
+    {"name": "smart streetlight", "type": "actuator"},
+    {"name": "public irrigation valve", "type": "actuator"},
+    {"name": "electric vehicle charging station", "type": "actuator"},
+    {"name": "automated waste compactor", "type": "actuator"},
+    {"name": "environmental alarm system", "type": "actuator"},
+    {"name": "automatic barrier gate", "type": "actuator"},
+    {"name": "dynamic road sign", "type": "actuator"},
+    {"name": "smart ventilation system", "type": "actuator"},
+    {"name": "drainage control valve", "type": "actuator"},
+    {"name": "emergency siren", "type": "actuator"},
+    {"name": "smart building HVAC control", "type": "actuator"},
+    {"name": "automated street cleaning system", "type": "actuator"},
+    {"name": "public display panel", "type": "actuator"},
+    {"name": "smart crosswalk signal", "type": "actuator"}
 ]
 
 
@@ -69,7 +91,7 @@ def generate_device(gateway: Dict[str, Any], radius_km: float) -> Dict[str, Any]
         "description": "DTM",
         "typeDevice": device_type["name"],
         "category": device_type["type"],
-        "status": True,
+        "status": random.choice([True, False]),
         "date": {
             "year": now.year,
             "month": now.month,
@@ -131,3 +153,15 @@ def get_device_ids() -> List[str]:
 
     ids = [device.get("id") for device in devices if device.get("id")]
     return ids
+
+def update_device(device_payload: dict):
+    """
+    Sends a full device JSON via PUT to the external API.
+    """
+    try:
+        # A API de vocês recebe PUT no mesmo endpoint do POST
+        resp = requests.put(DEVICE_API_URL, json=device_payload, timeout=10)
+        resp.raise_for_status()
+        return True, "OK"
+    except requests.RequestException as e:
+        return False, str(e)
